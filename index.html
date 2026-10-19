@@ -1,0 +1,1015 @@
+<!doctype html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Учебно приложение по теджуид по книгата „Основни познания по Теджуид“ на Сюлейман Хилми: уроци, флаш карти, упражнения и тестове.">
+<meta name="theme-color" content="#1e3d7b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Теджуид">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>Основи на теджуида</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,500;0,700;1,500&family=Golos+Text:wght@400;500;600&family=Amiri:wght@400;700&display=swap">
+<style>
+/* Layout: sticky top bar with four modes; lessons use a chapter rail + reading column; practice modes are single centred cards. Palette: lapis ink + illumination gold, like an Ottoman mushaf border. */
+:root{
+  --bg:#f6f7fa; --surface:#ffffff; --surface2:#eef1f7; --ink:#18223a; --muted:#5b6478;
+  --line:#d9deea; --lapis:#1e3d7b; --lapis-soft:#e3e9f6; --gold:#a8771c; --gold-soft:#f6ecd6;
+  --ok:#1f7a4d; --ok-soft:#e1f2e8; --bad:#b3361f; --bad-soft:#f8e3de;
+  --mark:#a8771c; --mark-bg:#f6ecd6;
+  --f-display:"Alegreya",Georgia,"Times New Roman",serif;
+  --f-body:"Golos Text",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-ar:"Amiri","Traditional Arabic","Scheherazade New","Noto Naskh Arabic",serif;
+  --r:10px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1524; --surface:#161e31; --surface2:#1c263d; --ink:#e7eaf2; --muted:#9aa3b8;
+  --line:#2a3550; --lapis:#8fb0ee; --lapis-soft:#1f2c4a; --gold:#e0b45a; --gold-soft:#3a2f17;
+  --ok:#6fcf98; --ok-soft:#173326; --bad:#f08a72; --bad-soft:#3a1d17; --mark:#f0c46a; --mark-bg:#3a2f17; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1524; --surface:#161e31; --surface2:#1c263d; --ink:#e7eaf2; --muted:#9aa3b8;
+  --line:#2a3550; --lapis:#8fb0ee; --lapis-soft:#1f2c4a; --gold:#e0b45a; --gold-soft:#3a2f17;
+  --ok:#6fcf98; --ok-soft:#173326; --bad:#f08a72; --bad-soft:#3a1d17; --mark:#f0c46a; --mark-bg:#3a2f17; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+.topin{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding-block:10px}
+.brand{display:flex;align-items:baseline;gap:10px;margin-right:auto}
+.brand .ar{font-size:1.5rem;color:var(--gold);line-height:1}
+.brand b{font-family:var(--f-display);font-size:1.3rem;font-weight:700;color:var(--lapis)}
+nav.tabs{display:flex;gap:4px;flex-wrap:wrap}
+nav.tabs button{border:1px solid transparent;background:none;padding:6px 12px;border-radius:999px;font-size:.92rem;color:var(--muted)}
+nav.tabs button[aria-selected="true"]{background:var(--lapis-soft);color:var(--lapis);border-color:var(--line);font-weight:600}
+
+.ar{font-family:var(--f-ar);direction:rtl;unicode-bidi:isolate;font-size:1.35em;line-height:1.9}
+.ar mark{background:var(--mark-bg);color:var(--mark);border-radius:3px}
+main{padding-block:24px 64px}
+
+/* lessons */
+.lessons{display:grid;grid-template-columns:260px minmax(0,1fr);gap:32px;align-items:start}
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);display:flex;flex-direction:column;gap:2px}
+.rail .prog{font-size:.8rem;color:var(--muted);margin-bottom:8px;letter-spacing:.04em;text-transform:uppercase}
+.bar{height:4px;background:var(--line);border-radius:4px;overflow:hidden;margin-bottom:12px}
+.bar i{display:block;height:100%;background:var(--gold);width:0;transition:width .3s}
+.rail button{display:flex;gap:10px;align-items:baseline;text-align:left;background:none;border:none;padding:8px 10px;border-radius:8px;font-size:.93rem;line-height:1.35}
+.rail button .n{font-family:var(--f-display);color:var(--muted);min-width:1.4em;font-variant-numeric:tabular-nums}
+.rail button[aria-current="true"]{background:var(--surface);box-shadow:inset 0 0 0 1px var(--line);font-weight:600}
+.rail button.done .n{color:var(--ok)}
+.rail button.done .n::after{content:" ✓"}
+.railsel{display:none;width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--surface);font:inherit;margin-bottom:16px}
+
+article.lesson{min-width:0;max-width:72ch}
+.eyebrow{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.2;color:var(--lapis)}
+h1{font-size:2.1rem;margin:.2em 0 .3em}
+h2{font-size:1.45rem;margin:1.6em 0 .4em}
+h3{font-size:1.15rem;margin:1.2em 0 .3em}
+.lead{font-size:1.08rem;color:var(--muted)}
+.term{display:inline-flex;gap:8px;align-items:baseline}
+.term .ar{color:var(--gold);font-size:1.25em}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:.5em 0;direction:rtl}
+.chip{font-family:var(--f-ar);font-size:1.5rem;min-width:2.4rem;height:2.6rem;display:inline-grid;place-items:center;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:0 6px;line-height:1}
+button.chip:hover{border-color:var(--gold)}
+.phrase{margin:.4em 0;padding:8px 14px;background:var(--gold-soft);border-radius:8px;display:inline-block}
+.phrase small{display:block;font-family:var(--f-body);font-size:.75rem;color:var(--muted);direction:ltr;text-align:left}
+.ex{display:flex;flex-wrap:wrap;gap:6px 18px;direction:rtl;margin:.4em 0;padding:6px 0;border-top:1px dashed var(--line);border-bottom:1px dashed var(--line)}
+.ex .ar{font-size:1.55rem}
+.exlabel{font-size:.78rem;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-top:.8em}
+.box{border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:14px 18px;margin:1.2em 0}
+.box.key{border-color:var(--gold);background:var(--gold-soft)}
+.box.key h3{margin-top:0;color:var(--gold)}
+.box ul{margin:.3em 0;padding-left:1.2em}
+table{border-collapse:collapse;width:100%;font-size:.95rem}
+.tbl{overflow-x:auto;margin:1em 0}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td .ar{font-size:1.4rem}
+.num{font-variant-numeric:tabular-nums;font-family:var(--f-display);font-weight:700;color:var(--gold)}
+.areas{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:1em 0}
+.area{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px}
+.area h4{margin:0 0 6px;font-family:var(--f-display);font-size:1.05rem;color:var(--lapis)}
+.area ol{margin:0;padding-left:1.4em;font-size:.92rem}
+.area li{margin:.25em 0}
+.area li .ar{font-size:1.25rem;color:var(--gold)}
+.explore{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+.explore .chips{direction:rtl}
+.lpanel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;min-height:180px}
+.lpanel .big{font-family:var(--f-ar);font-size:3.4rem;color:var(--gold);line-height:1.2;text-align:center}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:.82rem;padding:2px 9px;border-radius:999px;background:var(--lapis-soft);color:var(--lapis)}
+.lessonnav{display:flex;gap:10px;flex-wrap:wrap;margin-top:2em;padding-top:1.2em;border-top:1px solid var(--line)}
+.btn{border:1px solid var(--line);background:var(--surface);padding:9px 16px;border-radius:8px;font-weight:500}
+.btn.primary{background:var(--lapis);color:var(--bg);border-color:var(--lapis)}
+.btn.gold{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.btn:disabled{opacity:.45;cursor:default}
+
+/* practice */
+.stage{max-width:640px;margin:0 auto}
+.stagehead{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.stagehead h1{margin:0;font-size:1.7rem;margin-right:auto}
+select.sel{padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--surface);font:inherit;max-width:100%}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px}
+.meta{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted);margin-bottom:10px;font-variant-numeric:tabular-nums}
+.q{font-size:1.12rem;font-weight:500;margin:0 0 14px}
+.q .ar{font-size:1.5rem}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;border:1px solid var(--line);background:var(--surface);padding:11px 14px;border-radius:10px;line-height:1.4}
+.opt:hover:not(:disabled){border-color:var(--lapis)}
+.opt .ar{font-size:1.4rem}
+.opt.right{background:var(--ok-soft);border-color:var(--ok);color:var(--ok);font-weight:600}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.opt:disabled{cursor:default}
+.why{margin-top:14px;padding:12px 14px;border-radius:10px;background:var(--surface2);font-size:.95rem}
+.why b{color:var(--lapis)}
+.row{display:flex;gap:10px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
+.result{text-align:center}
+.result .score{font-family:var(--f-display);font-size:3.4rem;color:var(--gold);line-height:1}
+.dots{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:12px}
+.dots i{width:10px;height:10px;border-radius:50%;background:var(--line)}
+.dots i.r{background:var(--ok)} .dots i.w{background:var(--bad)} .dots i.c{outline:2px solid var(--gold);outline-offset:1px}
+.bigar{font-family:var(--f-ar);direction:rtl;font-size:2.6rem;text-align:center;line-height:1.8;margin:6px 0 18px}
+.bigar mark{background:var(--mark-bg);color:var(--mark);border-radius:4px}
+.hint{font-size:.88rem;color:var(--muted);text-align:center;margin-top:-10px;margin-bottom:14px}
+
+/* flashcards */
+.flip{perspective:1200px;cursor:pointer;min-height:260px;display:block;width:100%;border:none;background:none;padding:0;text-align:inherit}
+.flipin{position:relative;min-height:260px;transition:transform .5s;transform-style:preserve-3d}
+.flip.on .flipin{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:8px;overflow:auto}
+.face.back{transform:rotateY(180deg);background:var(--surface2)}
+.face .fbig{font-family:var(--f-display);font-size:1.8rem;color:var(--lapis);font-weight:700}
+.face .far{font-family:var(--f-ar);font-size:2.4rem;color:var(--gold);direction:rtl;line-height:1.6}
+.face .fsub{font-size:.8rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.face p{margin:0;max-width:46ch}
+@media (prefers-reduced-motion:reduce){.flipin{transition:none}}
+
+/* settings */
+.setwrap{position:relative;order:3}
+nav.tabs{order:2}
+@media (max-width:820px){.setwrap{order:1}nav.tabs{order:2;flex-basis:100%}}
+.setbtn{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--lapis)}
+.setbtn[aria-expanded="true"]{background:var(--lapis-soft)}
+.setpanel{position:absolute;right:0;top:46px;width:min(320px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(10,20,40,.18);padding:6px 16px;z-index:20}
+.setrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.setrow:last-child{border-bottom:none}
+.setrow.col{flex-direction:column;align-items:stretch;gap:8px}
+.setlab{font-size:.92rem;font-weight:500;display:flex;flex-direction:column}
+.setlab small,.sethint{font-weight:400;font-size:.8rem;color:var(--muted)}
+.seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;flex-shrink:0}
+.seg button{border:none;background:none;padding:6px 9px;font-size:.82rem;color:var(--muted)}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-checked="true"]{background:var(--lapis);color:var(--bg);font-weight:600}
+.switch{width:46px;height:26px;border-radius:13px;border:1px solid var(--line);background:var(--surface2);position:relative;flex-shrink:0;padding:0}
+.switch i{position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:var(--muted);transition:left .2s,background .2s}
+.switch[aria-checked="true"]{background:var(--ok-soft);border-color:var(--ok)}
+.switch[aria-checked="true"] i{left:22px;background:var(--ok)}
+@media (prefers-reduced-motion:reduce){.switch i{transition:none}}
+
+.intro-note{font-size:.9rem;color:var(--muted);border-left:3px solid var(--gold);padding-left:12px;margin:1em 0}
+
+@media (max-width:820px){
+  .lessons{grid-template-columns:minmax(0,1fr)}
+  .rail{display:none}
+  .railsel{display:block}
+  .explore{grid-template-columns:minmax(0,1fr)}
+  h1{font-size:1.7rem}
+}
+@media (max-width:520px){
+  .brand b{font-size:1.1rem}
+  nav.tabs button{padding:5px 9px;font-size:.85rem}
+  .bigar{font-size:2.1rem}
+}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap topin">
+  <div class="brand"><span class="ar">تَجْوِيد</span><b>Основи на теджуида</b></div>
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-v="lessons" aria-selected="true">Уроци</button>
+    <button role="tab" data-v="cards" aria-selected="false">Флаш карти</button>
+    <button role="tab" data-v="guess" aria-selected="false">Познай правилото</button>
+    <button role="tab" data-v="quiz" aria-selected="false">Тест</button>
+  </nav>
+  <div class="setwrap">
+    <button class="setbtn" id="setbtn" aria-expanded="false" aria-controls="setpanel" aria-label="Настройки">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+    </button>
+    <div class="setpanel" id="setpanel" hidden>
+      <div class="setrow">
+        <span class="setlab">Тема</span>
+        <div class="seg" role="radiogroup" aria-label="Тема">
+          <button role="radio" data-theme-set="light">Светла</button>
+          <button role="radio" data-theme-set="dark">Тъмна</button>
+          <button role="radio" data-theme-set="system">Авто</button>
+        </div>
+      </div>
+      <div class="setrow">
+        <span class="setlab">Екранът да остава включен<small id="wakestat"></small></span>
+        <button class="switch" id="wake" role="switch" aria-checked="false" aria-label="Екранът да остава включен"><i></i></button>
+      </div>
+      <div class="setrow col">
+        <span class="setlab">Инсталирай на устройството</span>
+        <button class="btn gold" id="installbtn">Инсталирай приложението</button>
+        <small class="sethint" id="installhint"></small>
+      </div>
+    </div>
+  </div>
+</div></header>
+
+<main class="wrap">
+  <section id="v-lessons">
+    <select class="railsel" id="railsel" aria-label="Избери урок"></select>
+    <div class="lessons">
+      <aside class="rail" id="rail"></aside>
+      <article class="lesson" id="lesson"></article>
+    </div>
+  </section>
+  <section id="v-cards" hidden></section>
+  <section id="v-guess" hidden></section>
+  <section id="v-quiz" hidden></section>
+</main>
+
+<script>
+/* ---------- helpers ---------- */
+const $=s=>document.querySelector(s);
+function arx(s){return s.replace(/\{([^}]*)\}/g,'<mark>$1</mark>')}
+function fmt(s){return s.replace(/⟨([^⟩]*)⟩/g,(m,a)=>'<span class="ar" lang="ar">'+arx(a)+'</span>')}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+const store={get(k,d){try{const v=localStorage.getItem('tj_'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('tj_'+k,JSON.stringify(v))}catch(e){}}};
+
+/* ---------- letters data ---------- */
+const MAKH=[null,
+ 'Кухината на гърлото и устата (буквите за удължаване)',
+ 'Дъното на гърлото, където се свързва с гърдите',
+ 'Средата на гърлото',
+ 'Най-горната част на гърлото, близо до устата',
+ 'Дъното на езика със срещуположната част от небцето',
+ 'Един пръст по-напред от мястото на ق',
+ 'Средата на езика със срещуположната част от небцето',
+ 'Лявата или дясната страна на езика (или двете) със срещуположните кътници',
+ 'Страните на езика чак до върха му със срещуположните венци',
+ 'Върхът на езика с венците на двата предни горни зъба',
+ 'Върхът на езика и малко от вътрешната му част с венците на предните горни зъби',
+ 'Върхът на езика с венците: ط при края им, د малко по-напред, ت близо до средата',
+ 'Ръбът на върха на езика при предните долни зъби (без допир): ص, после س, после ز',
+ 'Върхът на езика и върховете на предните горни зъби, с изкарване на езика: ظ, ذ, ث',
+ 'Върховете на предните горни зъби и вътрешната част на долната устна',
+ 'Между двете устни: ب (силно притискане), م (по-слабо), و (без затваряне)',
+ 'Носната кухина: скритият нун и гунна'];
+const LMAKH={'ا':1,'ء':2,'ه':2,'ع':3,'ح':3,'غ':4,'خ':4,'ق':5,'ك':6,'ج':7,'ش':7,'ي':7,'ض':8,'ل':9,'ن':10,'ر':11,'ط':12,'د':12,'ت':12,'ص':13,'س':13,'ز':13,'ظ':14,'ذ':14,'ث':14,'ف':15,'ب':16,'م':16,'و':16};
+const LORDER='ء ا ب ت ث ج ح خ د ذ ر ز س ش ص ض ط ظ ع غ ف ق ك ل م ن ه و ي'.split(' ');
+const SET=s=>new Set(s.split(''));
+const HAMS=SET('فحثهشخصسكت'),SHID=SET('ءجدقطبكت'),BAYN=SET('لنعمر'),ISTI=SET('خصضغطقظ'),ITB=SET('صضطظ'),QALQ=SET('قطبجد'),SAF=SET('صسز');
+function qualities(l){
+  const q=[];
+  q.push(HAMS.has(l)?'Хемс':'Джехр');
+  q.push(SHID.has(l)?'Шидде':BAYN.has(l)?'Бейниййе':'Рахауе');
+  q.push(ISTI.has(l)?'Истиаля':'Истифал');
+  q.push(ITB.has(l)?'Итбак':'Инфитах');
+  if(QALQ.has(l))q.push('Калкале');
+  if(SAF.has(l))q.push('Сафир');
+  if(l==='ر')q.push('Текрар');
+  if(l==='ل')q.push('Инхираф');
+  if(l==='ش')q.push('Тефешши');
+  if(l==='ض')q.push('Иститале');
+  if(l==='ن'||l==='م')q.push('Гунна');
+  return q;
+}
+function chips(str,cls){return '<div class="chips">'+str.split(' ').map(c=>'<span class="chip">'+c+'</span>').join('')+'</div>'}
+function phrase(a,label){return '<div class="phrase"><small>'+(label||'Събрани във фразата')+'</small><span class="ar" lang="ar">'+a+'</span></div>'}
+function ex(list,label){return '<div class="exlabel">'+(label||'Примери')+'</div><div class="ex">'+list.map(a=>'<span class="ar" lang="ar">'+arx(a)+'</span>').join('')+'</div>'}
+function term(bg,ar){return '<span class="term">'+bg+' <span class="ar" lang="ar">'+ar+'</span></span>'}
+function key(items){return '<div class="box key"><h3>Запомни</h3><ul>'+items.map(i=>'<li>'+fmt(i)+'</li>').join('')+'</ul></div>'}
+
+/* ---------- lessons ---------- */
+const LESSONS=[
+{id:'intro',title:'Какво е теджуид',pages:'стр. 1–2',html:()=>`
+<p class="lead">Брошурата е превод на „Мусаххих ет-Теджуид“ от Сюлейман Хилми (1330 г. х.). Тя е кратка и сбита, затова е лесна за заучаване, но съдържа всички важни въпроси на теджуида.</p>
+<h2>Значение на думата</h2>
+<p><b>Езиково</b> теджуид означава да направиш нещо красиво и хубаво.</p>
+<p><b>Като термин</b>: да се даде на всяка буква нейното „право“ и онова, „което ѝ се полага“, и да се върне всяка буква към нейната „основа“.</p>
+<div class="tbl"><table>
+<tr><th>Израз</th><th>Какво означава</th><th>Урок</th></tr>
+<tr><td>„Право“ на буквата</td><td>Задължителните ѝ качества</td><td>3</td></tr>
+<tr><td>„Което ѝ се полага“</td><td>Условните ѝ качества</td><td>4</td></tr>
+<tr><td>„Основа“ на буквата</td><td>Местопроизношението ѝ</td><td>2</td></tr>
+</table></div>
+<h2>Как се учи теджуид</h2>
+<p>Колкото и добре да е написана една книга, тя не стига сама по себе си. Правилното четене на Корана се усвоява, като се учат едновременно правилата и тяхното практическо приложение при учител, който владее четенето.</p>
+<p class="intro-note">Пратеникът на Аллах (Аллах да го благослови и приветства) казва: „Най-добрият от вас е онзи, който изучава Корана и го преподава.“</p>
+<h2>Как да ползваш това приложение</h2>
+<div class="tbl"><table>
+<tr><td><b>Уроци</b></td><td>Десет урока, подредени като в книгата. Маркирай всеки урок като прочетен.</td></tr>
+<tr><td><b>Флаш карти</b></td><td>Термини, местопроизношения и качества за запомняне.</td></tr>
+<tr><td><b>Познай правилото</b></td><td>Виждаш пример от Корана с оцветена част и избираш кое правило действа.</td></tr>
+<tr><td><b>Тест</b></td><td>Въпроси по всеки урок и общ изпит от 20 въпроса.</td></tr>
+</table></div>
+${key(['Теджуид = правилно и красиво изговаряне на всяка буква.','Три неща: местопроизношение (основа), задължителни качества (право), условни качества (което се полага).','Книгата не заменя учителя.'])}`},
+
+{id:'makharij',title:'Местопроизношения на буквите',pages:'стр. 2–8',html:()=>`
+<p class="lead">Местопроизношението (махрадж) е мястото, от което излиза буквата. Те са <span class="num">17</span>, разпределени в <span class="num">5</span> области.</p>
+<p>Местопроизношението на всяка буква се усеща най-добре, когато буквата се изговори със <b>сукун след хамза</b>: ⟨أَبْ⟩, ⟨أَقْ⟩, ⟨أَنْ⟩.</p>
+<p>Зъбите са 32: по 16 на всяка челюст. Отпред са <b>предните резци</b>, след тях <b>задните резци</b>, после <b>кучешките</b> зъби, а останалите са <b>кътници</b>, последните от които са <b>мъдреците</b>.</p>
+<h2>Петте области</h2>
+<div class="areas">
+<div class="area"><h4>1. Кухината (джеуф)</h4><ol start="1"><li>Кухината на гърлото и устата: буквите за удължаване <span class="ar">ا و ي</span></li></ol></div>
+<div class="area"><h4>2. Гърлото — 3 места</h4><ol start="2"><li>Дъното на гърлото: <span class="ar">ء ه</span></li><li>Средата на гърлото: <span class="ar">ع ح</span></li><li>Горната част: <span class="ar">غ خ</span></li></ol></div>
+<div class="area"><h4>3. Езикът — 10 места</h4><ol start="5">
+<li>Дъното на езика с небцето: <span class="ar">ق</span></li>
+<li>Пръст по-напред: <span class="ar">ك</span></li>
+<li>Средата на езика с небцето: <span class="ar">ج ش ي</span></li>
+<li>Страната на езика с кътниците: <span class="ar">ض</span></li>
+<li>Страните до върха с венците: <span class="ar">ل</span></li>
+<li>Върхът с венците на предните горни зъби: <span class="ar">ن</span></li>
+<li>Върхът и малко от вътрешната му част: <span class="ar">ر</span></li>
+<li>Върхът с венците: <span class="ar">ط د ت</span></li>
+<li>Ръбът на върха при долните резци: <span class="ar">ص س ز</span></li>
+<li>Върхът с върховете на горните резци: <span class="ar">ظ ذ ث</span></li></ol></div>
+<div class="area"><h4>4. Устните — 2 места</h4><ol start="15"><li>Горните резци и долната устна: <span class="ar">ف</span></li><li>Между двете устни: <span class="ar">ب م و</span></li></ol></div>
+<div class="area"><h4>5. Носната кухина</h4><ol start="17"><li>Скритият нун (при ихфа) и гунна</li></ol></div>
+</div>
+<h2>Подробности от книгата</h2>
+<h3>Гърлото</h3>
+<p>От дъното на гърлото, където се свързва с гърдите, първо хамза ⟨ء⟩, после ⟨ه⟩. От средата — първо ⟨ع⟩, след нея ⟨ح⟩. От най-горната част, близо до устата — първо ⟨غ⟩, след нея ⟨خ⟩.</p>
+<h3>Езикът</h3>
+<p><b>12-о място</b>: с повдигане на върха на езика при края на венците се изговаря ⟨ط⟩, малко по-напред ⟨د⟩, близо до средата на венците ⟨ت⟩. Венците се простират от основите на зъбите до грапавините на небцето.</p>
+<p><b>13-о място</b>: ⟨ص⟩, ⟨س⟩ и ⟨ز⟩ — върхът на езика застава близо до предните зъби, <b>без да ги докосва</b>.</p>
+<p><b>14-о място</b>: ⟨ظ⟩, по-назад ⟨ذ⟩, още по-назад ⟨ث⟩ — изговарят се с изкарване на езика навън между зъбите.</p>
+<h3>Устните</h3>
+<p>⟨ب⟩ — с по-силно притискане на вътрешните части на устните; ⟨م⟩ — по-навън и по-слабо; ⟨و⟩ — устните се доближават без да се затварят.</p>
+${key(['17 местопроизношения в 5 области: кухина 1, гърло 3, език 10, устни 2, нос 1.','Местопроизношението се проверява със сукун след хамза: ⟨أَبْ⟩.','⟨ص س ز⟩ — без допир до зъбите; ⟨ظ ذ ث⟩ — с изкарване на езика.'])}`},
+
+{id:'sifat',title:'Задължителни качества',pages:'стр. 9–13',html:()=>`
+<p class="lead">Задължителните качества винаги съпътстват буквата. Най-ясно се проявяват, когато буквата е със сукун. Те са <span class="num">16</span>.</p>
+<h2>Противоположни двойки</h2>
+<h3>${term('Джехр','جَهْر')} и ${term('Хемс','هَمْس')}</h3>
+<p><b>Джехр</b>: въздухът (целият или повечето) се задържа, а гласът се чува ясно.</p>
+${chips('ظ ل ق و ر ب ض ء ذ غ ز ا ج ن د م ط ي ع')}${phrase('ظِلُّ قَوٍّ رَبَضٍ إِذْ غَزَا جُنْدٌ مُطِيعٌ')}
+<p><b>Хемс</b>: въздухът се пропуска и гласът не се чува силно.</p>
+${chips('ف ح ث ه ش خ ص س ك ت')}${phrase('فَحَثَّهُ شَخْصٌ سَكَتْ')}
+
+<h3>${term('Шидде','شِدَّة')}, ${term('Рахауе','رَخَاوَة')} и ${term('Бейниййе','بَيْنِيَّة')}</h3>
+<p><b>Шидде</b>: в местопроизношението не остава пролука, гласът се задържа изцяло.</p>
+${chips('ء ج د ق ط ب ك ت')}${phrase('أَجِدْ قَطٍ بَكَتْ')}
+<p><b>Рахауе</b>: остава пролука и гласът се пропуска изцяло.</p>
+${chips('خ س ح ظ ش ص ه ز و ض غ ث ي ا ف ذ')}
+<p><b>Бейниййе</b>: гласът нито се задържа, нито се пропуска изцяло — средата между шидде и рахауе.</p>
+${chips('ل ن ع م ر')}${phrase('لِنْ عُمَرْ')}
+
+<h3>${term('Истиаля','اِسْتِعْلَاء')} и ${term('Истифал','اِسْتِفَال')}</h3>
+<p><b>Истиаля</b>: дъното на езика се вдига към небцето.</p>
+${chips('خ ص ض غ ط ق ظ')}${phrase('خُصَّ ضَغْطٍ قِظْ')}
+<p><b>Истифал</b>: дъното на езика спада към долната челюст. Това са всички останали 22 букви.</p>
+
+<h3>${term('Итбак','إِطْبَاق')} и ${term('Инфитах','اِنْفِتَاح')}</h3>
+<p><b>Итбак</b>: почти целият език силно се приближава или долепя до небцето.</p>
+${chips('ص ض ط ظ')}
+<p><b>Инфитах</b>: езикът и небцето се отделят и въздухът излиза между тях. Всички останали букви.</p>
+${phrase('مَنْ أَخَذَ وَجَدَ سَعَةً فَزَكَّى حَقٌّ لَهُ شُرْبُ غَيْثٍ')}
+
+<h2>Качества без противоположност</h2>
+<div class="tbl"><table>
+<tr><th>Качество</th><th>Значение</th><th>Букви</th></tr>
+<tr><td>${term('Калкале','قَلْقَلَة')}</td><td>Отглас и раздвижване в местопроизношението, когато буквата е <b>сякине</b>. Събира шидде и джехр.</td><td><span class="ar">ق ط ب ج د</span><br><span class="ar">قُطْبُ جَدٍ</span></td></tr>
+<tr><td>${term('Сафир','صَفِير')}</td><td>Звук, подобен на свирене</td><td><span class="ar">ص س ز</span></td></tr>
+<tr><td>${term('Текрар','تَكْرَار')}</td><td>Треперене на езика — трябва да се <b>предпазваме</b> от него</td><td><span class="ar">ر</span></td></tr>
+<tr><td>${term('Инхираф','اِنْحِرَاف')}</td><td>Отклоняване на въздуха от върха на езика към страните му</td><td><span class="ar">ل</span></td></tr>
+<tr><td>${term('Тефешши','تَفَشِّي')}</td><td>Разпръскване на въздуха между езика и небцето</td><td><span class="ar">ش</span></td></tr>
+<tr><td>${term('Иститале','اِسْتِطَالَة')}</td><td>Удължаване на гласа в местопроизношението от началото към края му</td><td><span class="ar">ض</span></td></tr>
+<tr><td>${term('Гунна','غُنَّة')}</td><td>Глас от носната кухина</td><td><span class="ar">ن م</span></td></tr>
+</table></div>
+${ex(['يَ{دْ}خُلُونَ','أَحَ{دْ}','بِالْحَ{قّْ}'],'Примери за калкале')}
+
+<h2>Изследвай буквите</h2>
+<p>Натисни буква, за да видиш местопроизношението и всичките ѝ задължителни качества.</p>
+<div class="explore"><div class="chips" id="lgrid">${LORDER.map(l=>'<button class="chip" data-l="'+l+'">'+l+'</button>').join('')}</div><div class="lpanel" id="lpanel"><p style="color:var(--muted)">Избери буква отляво.</p></div></div>
+${key(['16 задължителни качества: 5 двойки противоположности (джехр/хемс, шидде/рахауе с бейниййе по средата, истиаля/истифал, итбак/инфитах) и 7 самостоятелни.','Калкале: ⟨قُطْبُ جَدٍ⟩ — само при сукун.','Истиаля: ⟨خُصَّ ضَغْطٍ قِظْ⟩; итбак: ⟨ص ض ط ظ⟩.'])}`},
+
+{id:'arid',title:'Условни качества',pages:'стр. 14–16',html:()=>`
+<p class="lead">Условните качества зависят от условие или причина: ако условието е налице, и качеството е налице. Те са <span class="num">11</span>.</p>
+<div class="tbl"><table>
+<tr><th>Качество</th><th>Значение</th></tr>
+<tr><td>${term('Тефхим','تَفْخِيم')}</td><td>Дебело четене. Буквите на истиаля винаги; ⟨ا⟩ и ⟨و⟩ за удължаване след буква на истиаля; ⟨ل⟩ и ⟨ر⟩ при условията за удебеляване.</td></tr>
+<tr><td>${term('Теркик','تَرْقِيق')}</td><td>Тънко четене. Буквите на истифал (вкл. ⟨ا⟩ и ⟨و⟩ след тях) и ⟨ل⟩, ⟨ر⟩ без условия за удебеляване. Задължително е.</td></tr>
+<tr><td>${term('Идгам','إِدْغَام')}</td><td>Вкарване (сливане) на една буква в друга.</td></tr>
+<tr><td>${term('Ихфа','إِخْفَاء')}</td><td>Положение между идгам и изхар, без шедде и със запазване на гунна.</td></tr>
+<tr><td>${term('Изхар','إِظْهَار')}</td><td>Изговаряне на буквите от местопроизношенията им с всичките им качества, поотделно.</td></tr>
+<tr><td>${term('Икляб','إِقْلَاب')}</td><td>Превръщане на нун сякине или тенуин в ⟨م⟩ с ихфа и гунна при буквата ⟨ب⟩.</td></tr>
+<tr><td>${term('Медд','مَدّ')}</td><td>Удължаване на гласа при буквите на медд, повече от естественото времетраене.</td></tr>
+<tr><td>${term('Каср','قَصْر')}</td><td>Удължаване колкото е естественото времетраене.</td></tr>
+<tr><td>${term('Секте','سَكْتَة')}</td><td>Спиране без поемане на въздух.</td></tr>
+<tr><td>${term('Сукун','سُكُون')}</td><td>Буква без огласовка (сякине).</td></tr>
+<tr><td>${term('Харака','حَرَكَة')}</td><td>Огласовка: фетха, кесра, дамма.</td></tr>
+</table></div>
+<h2>Трите вида идгам</h2>
+<div class="tbl"><table>
+<tr><th>Вид</th><th>Двете букви имат</th></tr>
+<tr><td>${term('Мислейн','مِثْلَيْن')}</td><td>Еднакви местопроизношения и качества</td></tr>
+<tr><td>${term('Мутеджанисейн','مُتَجَانِسَيْن')}</td><td>Еднакво местопроизношение, различни качества</td></tr>
+<tr><td>${term('Мутекарибейн','مُتَقَارِبَيْن')}</td><td>Близки местопроизношения или качества (повечето задължителни качества съвпадат)</td></tr>
+</table></div>
+<h2>Ихфа на ⟨م⟩ и на ⟨ن⟩</h2>
+<p>При ихфа на ⟨م⟩ пред ⟨ب⟩ местопроизношението не се губи напълно: устните просто не се притискат силно. Така е и при икляб. При ихфа на ⟨ن⟩ езикът застава близо до местопроизношението на следващата буква.</p>
+<h2>Сукун и харака</h2>
+<p><b>Сукун лязим</b> се запазва и при спиране, и при свързване: буква с джезим или първата половина на буква с шедде. <b>Сукун арид</b> се появява при спиране и се губи при свързване.</p>
+<div class="tbl"><table>
+<tr><th>Какво</th><th>Времетраене</th></tr>
+<tr><td>Една харака</td><td>Колкото да се изговори една буква</td></tr>
+<tr><td>Буква за удължаване</td><td>2 хараки: елиф = 2 фетхи, йа = 2 кесри, уау = 2 дамми</td></tr>
+<tr><td>Ихфа и шедде</td><td>Повече от една буква, по-малко от две</td></tr>
+</table></div>
+${key(['11 условни качества.','Буквите на истиаля се удебеляват винаги; тънкото четене на истифал е задължително.','Мислейн = еднакви; мутеджанисейн = еднакво място, различни качества; мутекарибейн = близки.'])}`},
+
+{id:'medd',title:'Медд — удължаване',pages:'стр. 17–20',html:()=>`
+<h2>Букви за удължаване и меки букви</h2>
+<p>Буквите за удължаване (харф медд) са три: ⟨ا و ي⟩.</p>
+<ul>
+<li>⟨ا⟩ — сякине след фетха</li><li>⟨و⟩ — сякине след дамма</li><li>⟨ي⟩ — сякине след кесра</li></ul>
+${ex(['أُو{تِي}نَا'],'Пример')}
+<p><b>Меки букви (харф лин)</b>: ⟨و⟩ и ⟨ي⟩ сякине, когато буквата преди тях е с <b>фетха</b>: ⟨أَ{وْ}حَيْنَا⟩.</p>
+<p><b>Причините за удължаване</b> са две: <b>хамза</b> и <b>сукун</b>.</p>
+<h2>Мерки за удължаване</h2>
+<div class="tbl"><table>
+<tr><th>Мярка</th><th>Хараки</th></tr>
+<tr><td>${term('Каср','قَصْر')} — минимум</td><td class="num">2</td></tr>
+<tr><td>${term('Теуессут','تَوَسُّط')} — средно</td><td class="num">4</td></tr>
+<tr><td>${term('Тул','طُول')} — максимум</td><td class="num">6</td></tr>
+</table></div>
+<p><b>Раум</b> ⟨رَوْم⟩ — изговаряне на огласовката със слаб, скрит глас; допустим при кесра и дамма. <b>Ишмам</b> ⟨إِشْمَام⟩ — устните заемат форма на дамма след сукун; само при дамма. Заедно със сукун това са начините на спиране.</p>
+<h2>Шестте вида медд</h2>
+<div class="tbl"><table>
+<tr><th>Вид</th><th>Кога</th><th>Хафс</th><th>Статус</th></tr>
+<tr><td>${term('Табии','طَبِيعِي')}</td><td>Няма причина след буквата за удължаване</td><td class="num">2</td><td>естествено</td></tr>
+<tr><td>${term('Муттесил','مُتَّصِل')}</td><td>Хамза в <b>същата</b> дума</td><td class="num">4</td><td>задължително</td></tr>
+<tr><td>${term('Мунфесил','مُنْفَصِل')}</td><td>Хамза в <b>следващата</b> дума</td><td class="num">4</td><td>разрешено</td></tr>
+<tr><td>${term('Лязим','لَازِم')}</td><td>Сукун лязим в същата дума</td><td class="num">6</td><td>задължително</td></tr>
+<tr><td>${term('Арид','عَارِض')}</td><td>Сукун арид (при спиране)</td><td class="num">2/4/6</td><td>разрешено</td></tr>
+<tr><td>${term('Лин','لِين')}</td><td>Мека буква + сукун</td><td class="num">4/6</td><td>разрешено</td></tr>
+</table></div>
+<h3>Медд табии</h3>
+${ex(['طه','أَبَ{دًا}','تَوَّ{ا}بًا','نُو{حِي}هَا'])}
+<p>Също ⟨ر⟩ от ⟨الٓر⟩ и ⟨ح⟩ от ⟨حمٓ⟩. Трае 2 хараки.</p>
+<h3>Медд муттесил</h3>
+${ex(['إِذَا جَ{اءَ}','أُولَٰ{ئِ}كَ','جِ{يءَ}','سُ{وءَ}'])}
+<p>Учените са единодушни, че се удължава при всички четци; при Асим по риуайета на Хафс — 4 хараки.</p>
+<h3>Медд мунфесил</h3>
+${ex(['يَ{ا أَ}يُّهَا','إِنِّ{ي أَ}خَافُ','تُوبُ{وا إِ}لَى اللَّهِ'])}
+<p>Понякога буквата за удължаване е „посочваща“ — уау или йа, които се добавят при свързване след местоимението ⟨ـهُ⟩ / ⟨ـهِ⟩: ⟨أَنَّ مَالَ{هُۥٓ أَ}خْلَدَهُ⟩, ⟨بِمَا شَاءَ⟩. Някои четци правят медд, други — каср; при Хафс — 4 хараки.</p>
+<h3>Медд лязим — четири вида, 6 хараки</h3>
+<div class="tbl"><table>
+<tr><td>1. Келими мусеккал (в дума, с шедде)</td><td><span class="ar">تَأْمُرُ{ونِّ}ي، الْحَ{اقَّ}ةُ، وَلَا الضَّ{الِّ}ينَ</span></td></tr>
+<tr><td>2. Келими мухаффеф (в дума, без шедде)</td><td><span class="ar">{آلْ}آنَ</span></td></tr>
+<tr><td>3. Харфи мусеккал (в буква, с шедде)</td><td>⟨ل⟩ от ⟨الٓمٓ⟩ (чете се ⟨أَلِفْ لَآمْ مِّيمْ⟩)</td></tr>
+<tr><td>4. Харфи мухаффеф (в буква, без шедде)</td><td>⟨م⟩ от ⟨الٓمٓ⟩, ⟨ل⟩ от ⟨الٓر⟩, ⟨م⟩ от ⟨حمٓ⟩</td></tr>
+</table></div>
+<h3>Медд арид</h3>
+${ex(['يَعْلَمُ{ونْ}','نَسْتَعِ{ينْ}','يَوْمِ الدِّ{ينْ}'])}
+<div class="tbl"><table>
+<tr><th>Думата завършва с</th><th>Начини</th><th>Кои</th></tr>
+<tr><td>Фетха</td><td class="num">3</td><td>тул, теуессут, каср със сукун</td></tr>
+<tr><td>Кесра</td><td class="num">4</td><td>+ раум</td></tr>
+<tr><td>Дамма</td><td class="num">7</td><td>3 със сукун, 3 с ишмам, раум</td></tr>
+</table></div>
+<p>При раум единственият начин е каср.</p>
+<h3>Медд лин</h3>
+${ex(['وَالصَّ{يْفْ}','عَلَ{يْهْ}','مِنْ خَ{وْفْ}','يَ{وْمْ}'])}
+<p>При сукун лязим — тул или теуессут, напр. ⟨ع⟩ от ⟨كٓهيعٓصٓ⟩ и ⟨حمٓ عٓسٓقٓ⟩. При сукун арид — като медд арид (3, 4 или 7 начина).</p>
+${key(['Причини за медд: хамза и сукун.','Табии 2 · муттесил 4 · мунфесил 4 · лязим 6 (по Хафс).','Муттесил и лязим са задължителни; мунфесил, арид и лин — разрешени с различия.'])}`},
+
+{id:'nun',title:'Нун сякине и тенуин',pages:'стр. 20–21',html:()=>`
+<p class="lead"><b>Тенуин</b> е двойна фетха, кесра или дамма ⟨ـً ـٍ ـٌ⟩. <b>Нун сякине</b> е нун с джезим ⟨نْ⟩. Когато срещнат следваща буква, действа едно от петте правила.</p>
+<h2>1. Изхар — 6 букви</h2>
+${chips('ء ه ع ح غ خ')}${phrase('اَللّٰهُ حَيٌّ خَالِقٌ عَدْلٌ غَنِيٌّ هَادِيًا','Първите букви на думите')}
+${ex(['مِ{نْ خَ}وْفٍ','مَ{نْ آ}مَنَ','غَفُو{رٌ حَ}لِيمٌ'])}
+<h2>2. Икляб — 1 буква</h2>
+${chips('ب')}
+${ex(['سَمِي{عٌ بَ}صِيرٌ','مِ{نْ بَ}عْدِ','لَيُ{نْبَ}ذَنَّ'])}
+<h2>3. Идгам с гунна — 4 букви</h2>
+${chips('ي ن م و')}${phrase('يَنْمُو','Събрани в думата')}
+${ex(['فَضْ{لًا مِ}نَ اللَّهِ','خَيْ{رًا يَ}رَهُ','وَمَ{نْ يَ}عْمَلْ'])}
+<p><b>Изключение:</b> ако нун сякине и ⟨و⟩ или ⟨ي⟩ са в <b>една и съща дума</b>, става изхар:</p>
+${ex(['بُ{نْيَ}انٌ','قِ{نْوَ}انٌ','صِ{نْوَ}انٌ','الدُّ{نْيَ}ا'])}
+<h2>4. Идгам без гунна — 2 букви</h2>
+${chips('ل ر')}
+${ex(['غَفُو{رٌ رَ}حِيمٌ','هُ{دًى لِ}لْمُتَّقِينَ','مِ{نْ رَ}بِّهِمْ'])}
+<h2>5. Ихфа — 15 букви</h2>
+${chips('ص ذ ث ج ش ق س ك ض ظ ز ت د ط ف')}
+${phrase('صِفْ ذَا ثَنَا جُودَ شَخْصٍ قَدْ سَمَا كَرَمًا ضَعْ ظَالِمًا زِدْ تُقًى دُمْ طَالِبًا فَتَرَى','Първите букви на думите в стиха')}
+${ex(['غَنِ{يٌّ كَ}رِيمٌ','فَتْ{حٌ قَ}رِيبٌ','عَ{نْ صَ}لَاتِهِمْ'])}
+${key(['Изхар 6 · икляб 1 · идгам с гунна 4 (⟨يَنْمُو⟩) · без гунна 2 (⟨ل ر⟩) · ихфа 15 = 28.','В една дума с ⟨و⟩/⟨ي⟩ няма идгам: ⟨الدُّنْيَا⟩.'])}`},
+
+{id:'mim',title:'Мим сякине и видове идгам',pages:'стр. 21–23',html:()=>`
+<h2>Трите положения на мим сякине</h2>
+<div class="tbl"><table>
+<tr><th>Следва</th><th>Правило</th><th>Пример</th></tr>
+<tr><td>⟨م⟩</td><td>Идгам мислейн с гунна</td><td><span class="ar">أَطْعَمَهُ{مْ مِ}نْ جُوعٍ</span><br><span class="ar">عَلَيْهِ{مْ مُ}ؤْصَدَةٌ</span></td></tr>
+<tr><td>⟨ب⟩</td><td>Ихфа</td><td><span class="ar">إِنَّ رَبَّهُ{مْ بِ}هِمْ</span><br><span class="ar">تَرْمِيهِ{مْ بِ}حِجَارَةٍ</span></td></tr>
+<tr><td>Всички останали</td><td>Изхар</td><td><span class="ar">هُ{مْ فِ}يهَا</span><br><span class="ar">لَكُ{مْ دِ}ينُكُمْ</span></td></tr>
+</table></div>
+<h2>Идгам мислейн</h2>
+<p>Буква със сукун е последвана от същата буква.</p>
+${ex(['آوَ{وْا وَ}نَصَرُوا','أَنِ اضْرِ{بْ بِ}عَصَاكَ','فَمَا رَبِحَ{تْ تِ}جَارَتُهُمْ'])}
+<p>Когато нун сякине срещне ⟨ن⟩, има едновременно идгам мислейн и идгам с гунна:</p>
+${ex(['وَمَ{نْ نُ}عَمِّرْهُ','مِ{نْ نَ}ارٍ'])}
+<h2>Идгам мутеджанисейн</h2>
+<p>Две букви с еднакво местопроизношение и различни качества; първата сякине, втората огласена. Среща се в три групи:</p>
+<div class="tbl"><table>
+<tr><td><span class="ar">ط د ت</span></td><td><span class="ar">لَئِنْ بَسَطْ{تَ}، وَقَالَ{تْ طَ}ائِفَةٌ، أَثْقَلَ{تْ دَ}عَوَا، مَا عَبَدْ{تُ}مْ</span></td></tr>
+<tr><td><span class="ar">ظ ذ ث</span></td><td><span class="ar">إِ{ذْ ظَ}لَمُوا، يَلْهَ{ثْ ذَ}ٰلِكَ</span></td></tr>
+<tr><td><span class="ar">م ب</span></td><td><span class="ar">يَا بُنَيَّ ارْكَ{بْ مَ}عَنَا</span></td></tr>
+</table></div>
+<h2>Идгам мутекарибейн</h2>
+<p>Две букви с близки местопроизношения или качества.</p>
+<div class="tbl"><table>
+<tr><td><span class="ar">ل ← ر</span></td><td><span class="ar">قُ{لْ رَ}بِّ، بَ{لْ رَ}فَعَهُ اللَّهُ</span></td></tr>
+<tr><td><span class="ar">ق ← ك</span></td><td><span class="ar">أَلَمْ نَخْلُ{قْكُ}مْ</span></td></tr>
+</table></div>
+<p>Също всички случаи на идгам, които не са мислейн или мутеджанисейн.</p>
+${key(['Мим сякине: + ⟨م⟩ идгам, + ⟨ب⟩ ихфа, + друга буква изхар.','Мутеджанисейн групи: ⟨ط د ت⟩, ⟨ظ ذ ث⟩, ⟨م ب⟩.','Мутекарибейн: ⟨قُلْ رَبِّ⟩, ⟨نَخْلُقْكُمْ⟩.'])}`},
+
+{id:'lam',title:'Лям теариф',pages:'стр. 23',html:()=>`
+<p class="lead">⟨ل⟩ от определителния член ⟨ال⟩ се нарича <b>лям теариф</b>. Според следващата буква тя или се слива, или се изговаря ясно.</p>
+<h2>Идгам шемсий — 14 букви</h2>
+${chips('ت ث د ذ ر ز س ش ص ض ط ظ ل ن')}
+<p>Лямът не се чете, а следващата буква се удвоява. Пред ⟨ن⟩ идгамът е <b>с гунна</b>, пред останалите — без гунна.</p>
+${ex(['وَ{النَّ}اسِ','وَ{الشَّ}مْسِ','وَ{التِّ}ينِ'])}
+<h2>Изхар камерий — 14 букви</h2>
+${chips('ء ب غ ح ج ك و خ ف ع ق ي م ه')}${phrase('أَبْغِ حَجَّكَ وَخَفْ عَقِيمَهُ')}
+<p>Лямът се изговаря ясно със сукун.</p>
+${ex(['وَ{الْعَ}صْرِ','وَ{الْفَ}جْرِ','وَ{الْقَ}مَرِ'])}
+${key(['Шемсий: лямът изчезва, следващата буква има шедде.','Камерий: ⟨أَبْغِ حَجَّكَ وَخَفْ عَقِيمَهُ⟩ — лямът се чува.'])}`},
+
+{id:'ra',title:'Буквата ر и името Аллах',pages:'стр. 23–24',html:()=>`
+<h2>Кога ⟨ر⟩ е дебела и кога тънка</h2>
+<div class="tbl"><table>
+<tr><th>Положение</th><th>Четене</th><th>Пример</th></tr>
+<tr><td>С фетха или дамма</td><td>Дебело</td><td><span class="ar">{الرَّ}حْمَٰنِ، {الرُّ}وحُ، نَصْ{رُ} اللَّهِ</span></td></tr>
+<tr><td>С кесра</td><td>Тънко</td><td><span class="ar">بِالْبِ{رِّ}</span></td></tr>
+<tr><td>Сякине след фетха или дамма</td><td>Дебело</td><td><span class="ar">وَانْحَ{رْ}، بِالنُّذُ{رِ}</span></td></tr>
+<tr><td>Сякине след кесра</td><td>Тънко</td><td><span class="ar">وَاسْتَغْفِ{رْ}هُ، وَاصْطَبِ{رْ}</span></td></tr>
+<tr><td>Сякине след кесра, следвана от буква на истиаля в същата дума</td><td>Дебело</td><td><span class="ar">فِ{رْقَ}ةٍ، قِ{رْطَ}اسٍ، مِ{رْصَ}ادًا</span></td></tr>
+<tr><td>…ако буквата на истиаля е с кесра</td><td>И двете</td><td><span class="ar">كُلُّ فِ{رْقٍ}</span></td></tr>
+<tr><td>Сякине след кесра арида (свързваща хамза)</td><td>Дебело</td><td><span class="ar">لِمَنِ ا{رْ}تَضَى، ا{رْ}جِعِي</span></td></tr>
+<tr><td>Сякине след сякине: гледа се буквата преди тях — фетха/дамма</td><td>Дебело</td><td><span class="ar">بِالصَّبْ{رْ}، فِي الصُّدُو{رْ}</span></td></tr>
+<tr><td>…кесра</td><td>Тънко</td><td><span class="ar">بَصِي{رْ}، قَدِي{رْ}، حِجْ{رْ}</span></td></tr>
+<tr><td>Сякине след ⟨ي⟩ — харф лин</td><td>Тънко</td><td><span class="ar">خَيْ{رْ}، سَيْ{رْ}</span></td></tr>
+</table></div>
+<p>При спиране без раум в думите ⟨مِصْرَ⟩ и ⟨الْقِطْرِ⟩ се позволяват и тефхим, и теркик.</p>
+<h2>Лефзатуллах — лямът в името ⟨اللَّه⟩</h2>
+<div class="tbl"><table>
+<tr><th>Преди името</th><th>Четене</th><th>Пример</th></tr>
+<tr><td>Фетха или дамма</td><td>Дебело (задължително)</td><td><span class="ar">هُوَ {اللَّهُ}، نَصْرُ {اللَّهِ}</span></td></tr>
+<tr><td>Кесра</td><td>Тънко (задължително)</td><td><span class="ar">بِ{اللَّهِ}، لِ{لَّهِ}</span></td></tr>
+<tr><td>Фетха с имале</td><td>И двете</td><td>—</td></tr>
+</table></div>
+${key(['⟨ر⟩: фетха/дамма — дебело; кесра — тънко.','Сякине ⟨ر⟩ гледа предходната огласовка; истиаля след нея я удебелява.','Аллах: след кесра — тънко, иначе дебело.'])}`},
+
+{id:'damir',title:'Дамир, секте и допълнения',pages:'стр. 24–26',html:()=>`
+<h2>Дамир — местоимението ⟨ـهُ / ـهِ⟩</h2>
+<div class="tbl"><table>
+<tr><th>Положение</th><th>Удължава ли се?</th><th>Пример</th></tr>
+<tr><td>Буквата преди е огласена</td><td>Да</td><td><span class="ar">لَ{هُۥ}، إِنَّ{هُۥ}، بِ{هِۦ}</span></td></tr>
+<tr><td>Буквата преди е сякине</td><td>Не</td><td><span class="ar">مِنْ{هُ}، إِلَيْ{هِ}، فِي{هِ}</span></td></tr>
+<tr><td>Буквата след дамир е сякине</td><td>Не, при всички четци</td><td><span class="ar">كُرْسِيُّ{هُ} السَّمَاوَاتِ</span></td></tr>
+<tr><td>Сукун върху дамир или спиране с раум</td><td>Не</td><td>—</td></tr>
+</table></div>
+<p><b>Изключение:</b> ⟨فِي{هِۦ} مُهَانًا⟩ — дамирът се удължава, въпреки че преди него е сякине.</p>
+<p>⟨ه⟩ в ⟨مَا نَفْقَهُ⟩ и ⟨لَمْ يَتَسَنَّهْ⟩ не е дамир, а част от корена, затова не се удължава.</p>
+<h2>Секте — 4 места в Корана</h2>
+<div class="tbl"><table>
+<tr><th>Сура</th><th>Място</th></tr>
+<tr><td>ал-Кахф</td><td><span class="ar">عِوَجًا ۜ قَيِّمًا</span></td></tr>
+<tr><td>Йа Син</td><td><span class="ar">مِنْ مَرْقَدِنَا ۜ هَٰذَا</span></td></tr>
+<tr><td>ал-Кийаме</td><td><span class="ar">وَقِيلَ مَنْ ۜ رَاقٍ</span></td></tr>
+<tr><td>ал-Мутаффифин</td><td><span class="ar">كَلَّا بَلْ ۜ رَانَ</span></td></tr>
+</table></div>
+<p>Тенуинът в ⟨عِوَجًا⟩ става елиф и върху него се прави секте.</p>
+<h2>Допълнения</h2>
+<p>При Хафс елифът в края на седем думи се чете <b>при спиране</b>, а при свързване не: ⟨أَنَا⟩, ⟨لَٰكِنَّا هُوَ اللَّهُ⟩, ⟨الظُّنُونَا⟩, ⟨الرَّسُولَا⟩, ⟨السَّبِيلَا⟩, ⟨سَلَاسِلَا⟩ и първото ⟨قَوَارِيرَا⟩. За ⟨سَلَاسِلَا⟩ има и риуайет със сукун върху ⟨ل⟩ при спиране.</p>
+<p><b>Тесхил</b>: в ⟨ءَأَعْجَمِيٌّ⟩ (Фуссилет) втората хамза се чете между хамза и елиф.</p>
+<p><b>Имале кубра</b>: в ⟨مَجْرَاهَا⟩ (Худ) елифът след ⟨ر⟩ се чете с имале, а ⟨ر⟩ — тънко. Имале означава приближаване на ⟨ا⟩ към ⟨ي⟩ и на фетха към кесра.</p>
+${key(['Дамир се удължава само между две огласени букви. Изключение: ⟨فِيهِۦ مُهَانًا⟩.','Секте: Кахф, Йа Син, Кийаме, Мутаффифин.','⟨مَجْرَاهَا⟩ — имале; ⟨ءَأَعْجَمِيٌّ⟩ — тесхил.'])}`}
+];
+
+/* ---------- quiz bank ---------- */
+const Q={
+intro:[
+['Какво е езиковото значение на „теджуид“?',['Правене на нещо красиво и хубаво','Четене на глас','Запаметяване','Превод'],0,'Езиково теджуид е направата на нещо красиво и хубаво.'],
+['„Правото“ на буквата означава нейните…',['Задължителни качества','Условни качества','Местопроизношение','Огласовки'],0,'Право = задължителни качества.'],
+['„Онова, което ѝ се полага“ означава…',['Условните качества','Задължителните качества','Местопроизношението','Сукуна'],0,'Което ѝ се полага = условни качества.'],
+['„Основата“ на буквата е нейното…',['Местопроизношение','Качество джехр','Удължаване','Харака'],0,'Основа = местопроизношение.'],
+['Достатъчна ли е книгата сама за правилно четене?',['Не, нужен е и учител','Да, ако се прочете два пъти','Да, за начинаещи','Само за арабите'],0,'Правилата се учат заедно с практиката при учител.']],
+makharij:[
+['Колко са местопроизношенията според книгата?',['17','14','16','29'],0,'Местопроизношенията са седемнадесет.'],
+['В колко области са разположени?',['5','3','4','7'],0,'Кухина, гърло, език, устни, нос.'],
+['Колко местопроизношения има езикът?',['10','3','2','8'],0,'Езикът съдържа десет местопроизношения.'],
+['Откъде излизат буквите за удължаване?',['От кухината на гърлото и устата','От носната кухина','От устните','От средата на езика'],0,'Първото местопроизношение — кухината.'],
+['Кои букви излизат от дъното на гърлото?',['⟨ء ه⟩','⟨ع ح⟩','⟨غ خ⟩','⟨ق ك⟩'],0,'Първо хамза, после ⟨ه⟩.'],
+['Как се усеща местопроизношението най-добре?',['Със сукун след хамза','С фетха','С шедде','С тенуин'],0,'Напр. ⟨أَبْ⟩.'],
+['Откъде се изговаря ⟨ض⟩?',['От страната на езика с кътниците','От върха на езика','От дъното на езика','От устните'],0,'Осмото местопроизношение.'],
+['Откъде се изговаря ⟨ف⟩?',['Върховете на горните резци и вътрешната част на долната устна','Между двете устни','Носната кухина','Средата на езика'],0,'Петнадесетото местопроизношение.'],
+['Откъде излизат скритият нун и гунна?',['От носната кухина','От гърлото','От устните','От средата на езика'],0,'Седемнадесетото местопроизношение.'],
+['Кои букви се изговарят с изкарване на езика между зъбите?',['⟨ظ ذ ث⟩','⟨ص س ز⟩','⟨ط د ت⟩','⟨ج ش ي⟩'],0,'Четиринадесетото местопроизношение.']],
+sifat:[
+['Колко са задължителните качества в книгата?',['16','11','17','5'],0,'Шестнадесет всеобщоизвестни качества.'],
+['Какво е джехр?',['Въздухът се задържа и гласът се чува ясно','Въздухът се пропуска','Свирене','Глас от носа'],0,'Противоположно на хемс.'],
+['Кои букви са на хемс?',['⟨فَحَثَّهُ شَخْصٌ سَكَتْ⟩','⟨أَجِدْ قَطٍ بَكَتْ⟩','⟨لِنْ عُمَرْ⟩','⟨قُطْبُ جَدٍ⟩'],0,'Десет букви на хемс.'],
+['Кои букви са на шидде?',['⟨أَجِدْ قَطٍ بَكَتْ⟩','⟨خُصَّ ضَغْطٍ قِظْ⟩','⟨لِنْ عُمَرْ⟩','⟨يَنْمُو⟩'],0,'Осем букви на шидде.'],
+['Бейниййе е…',['Средата между шидде и рахауе','Средата между джехр и хемс','Вид удължаване','Вид идгам'],0,'Букви: ⟨لِنْ عُمَرْ⟩.'],
+['Кои са буквите на итбак?',['⟨ص ض ط ظ⟩','⟨ق ط ب ج د⟩','⟨ص س ز⟩','⟨خ غ ق⟩'],0,'Четири букви.'],
+['Кога има калкале?',['Само когато буквата е със сукун','Само с фетха','Винаги','Само в края на сура'],0,'Калкале има само в положение на сукун.'],
+['При коя буква е текрар?',['⟨ر⟩','⟨ل⟩','⟨ش⟩','⟨ض⟩'],0,'От него трябва да се предпазваме.'],
+['Тефешши е качество на…',['⟨ش⟩','⟨ض⟩','⟨س⟩','⟨ل⟩'],0,'Разпръскване на въздуха.'],
+['Иститале е качество на…',['⟨ض⟩','⟨ظ⟩','⟨ل⟩','⟨ش⟩'],0,'Удължаване на гласа в местопроизношението.']],
+arid:[
+['Колко са условните качества?',['11','16','6','17'],0,'Те са единадесет.'],
+['Буквите на истиаля се удебеляват…',['Винаги','Само с фетха','Само със сукун','Никога'],0,'Тефхимът им е постоянен.'],
+['Две букви с еднакво местопроизношение и различни качества са…',['Мутеджанисейн','Мислейн','Мутекарибейн','Шемсий'],0,'⟨مُتَجَانِسَيْن⟩.'],
+['Ихфа е…',['Положение между идгам и изхар, без шедде, с гунна','Пълно сливане','Ясно изговаряне','Удължаване'],0,'Определение от книгата.'],
+['Секте е…',['Спиране без поемане на въздух','Спиране с поемане на въздух','Удължаване','Дебело четене'],0,'⟨سَكْتَة⟩.'],
+['Колко хараки е буквата за удължаване?',['2','1','4','6'],0,'Двойно колкото огласовката.'],
+['Сукун арид…',['Се появява при спиране и се губи при свързване','Се запазва винаги','Е буква с шедде','Е тенуин'],0,'Сукун лязим се запазва и в двата случая.']],
+medd:[
+['Кои са двете причини за удължаване?',['Хамза и сукун','Шедде и тенуин','Фетха и кесра','Гунна и калкале'],0,'Хамза и сукун.'],
+['Колко вида медд изброява книгата?',['6','4','3','7'],0,'Табии, муттесил, мунфесил, лязим, арид, лин.'],
+['Медд муттесил при Хафс трае…',['4 хараки','2 хараки','6 хараки','1 харака'],0,'Хамзата е в същата дума.'],
+['Медд лязим трае…',['6 хараки','4 хараки','2 хараки','2 или 4'],0,'Учените са единодушни.'],
+['Хамза в следващата дума след буква за удължаване е…',['Медд мунфесил','Медд муттесил','Медд лязим','Медд табии'],0,'Например ⟨يَا أَيُّهَا⟩.'],
+['Теуессут е…',['4 хараки','6 хараки','2 хараки','3 хараки'],0,'Средно между тул и каср.'],
+['Ишмам е допустим само при…',['Дамма','Кесра','Фетха','Тенуин'],0,'Устните заемат форма на дамма.'],
+['Медд арид при дума, завършваща с дамма, има…',['7 начина','3 начина','4 начина','2 начина'],0,'3 със сукун, 3 с ишмам и раум.'],
+['Харф лин е ⟨و⟩ или ⟨ي⟩ сякине след…',['Фетха','Кесра','Дамма','Сукун'],0,'⟨أَوْحَيْنَا⟩.']],
+nun:[
+['Кои са буквите на изхар?',['⟨ء ه ع ح غ خ⟩','⟨ي ن م و⟩','⟨ل ر⟩','⟨ب⟩'],0,'Шест гърлени букви.'],
+['Коя е буквата на икляб?',['⟨ب⟩','⟨م⟩','⟨ن⟩','⟨و⟩'],0,'Нунът става ⟨م⟩.'],
+['Буквите на идгам с гунна са събрани в…',['⟨يَنْمُو⟩','⟨لِنْ عُمَرْ⟩','⟨قُطْبُ جَدٍ⟩','⟨أَجِدْ قَطٍ بَكَتْ⟩'],0,'Четири букви.'],
+['Идгам без гунна е при…',['⟨ل ر⟩','⟨م ن⟩','⟨و ي⟩','⟨ب م⟩'],0,'Две букви.'],
+['Колко са буквите на ихфа?',['15','14','6','4'],0,'Първите букви на ⟨صِفْ ذَا ثَنَا…⟩.'],
+['Какво става в ⟨الدُّنْيَا⟩?',['Изхар, защото нун и ⟨ي⟩ са в една дума','Идгам с гунна','Ихфа','Икляб'],0,'Изключение от идгама.']],
+mim:[
+['Мим сякине + ⟨ب⟩ =',['Ихфа','Изхар','Идгам','Икляб'],0,'⟨تَرْمِيهِمْ بِحِجَارَةٍ⟩.'],
+['Мим сякине + ⟨م⟩ =',['Идгам мислейн с гунна','Ихфа','Изхар','Идгам без гунна'],0,'⟨عَلَيْهِمْ مُؤْصَدَةٌ⟩.'],
+['Мим сякине + ⟨ف⟩ =',['Изхар','Ихфа','Идгам','Калкале'],0,'⟨هُمْ فِيهَا⟩.'],
+['⟨قُلْ رَبِّ⟩ е пример за…',['Мутекарибейн','Мислейн','Мутеджанисейн','Шемсий'],0,'⟨ل⟩ и ⟨ر⟩ са близки.'],
+['⟨وَقَالَتْ طَائِفَةٌ⟩ е пример за…',['Мутеджанисейн','Мислейн','Мутекарибейн','Ихфа'],0,'⟨ت⟩ и ⟨ط⟩ имат едно местопроизношение.'],
+['Нун сякине + ⟨ن⟩ дава…',['Мислейн и идгам с гунна едновременно','Само изхар','Ихфа','Икляб'],0,'⟨مِنْ نَارٍ⟩.']],
+lam:[
+['Колко са буквите на идгам шемсий?',['14','15','6','28'],0,'Половината от азбуката.'],
+['⟨وَالشَّمْسِ⟩ е…',['Идгам шемсий','Изхар камерий','Ихфа','Икляб'],0,'Лямът не се чува.'],
+['Фразата на изхар камерий е…',['⟨أَبْغِ حَجَّكَ وَخَفْ عَقِيمَهُ⟩','⟨صِفْ ذَا ثَنَا⟩','⟨لِنْ عُمَرْ⟩','⟨يَنْمُو⟩'],0,'Четиринадесет букви.'],
+['Лям теариф + ⟨ن⟩ дава…',['Идгам шемсий с гунна','Идгам без гунна','Изхар','Ихфа'],0,'⟨وَالنَّاسِ⟩.']],
+ra:[
+['⟨ر⟩ с кесра се чете…',['Тънко','Дебело','И двете','С калкале'],0,'⟨بِالْبِرِّ⟩.'],
+['⟨ر⟩ сякине след фетха се чете…',['Дебело','Тънко','И двете','Със секте'],0,'⟨وَانْحَرْ⟩.'],
+['В ⟨فِرْقَةٍ⟩ ⟨ر⟩ е…',['Дебела, заради ⟨ق⟩ от истиаля в същата дума','Тънка, заради кесрата','И двете','С калкале'],0,'Истиаля след нея я удебелява.'],
+['В ⟨ارْجِعِي⟩ ⟨ر⟩ е…',['Дебела — кесрата е арида','Тънка','И двете','Не се чете'],0,'Свързваща хамза.'],
+['В ⟨خَيْرٌ⟩ при спиране ⟨ر⟩ е…',['Тънка — след харф лин ⟨ي⟩','Дебела','И двете','С гунна'],0,'Правило от книгата.'],
+['Лямът в ⟨بِاللَّهِ⟩ се чете…',['Тънко','Дебело','И двете','Със сукун'],0,'След кесра.'],
+['Лямът в ⟨نَصْرُ اللَّهِ⟩ се чете…',['Дебело','Тънко','И двете','С имале'],0,'След дамма.']],
+damir:[
+['Колко места на секте има в Корана (по Хафс)?',['4','2','7','14'],0,'Кахф, Йа Син, Кийаме, Мутаффифин.'],
+['Къде е секте в сура ал-Кахф?',['⟨عِوَجًا ۜ قَيِّمًا⟩','⟨مَنْ ۜ رَاقٍ⟩','⟨بَلْ ۜ رَانَ⟩','⟨مَرْقَدِنَا ۜ هَٰذَا⟩'],0,'Тенуинът става елиф.'],
+['Дамирът се удължава, когато…',['Буквата преди него е огласена','Буквата преди него е сякине','Следва сякине','Спираме с раум'],0,'⟨لَهُۥ⟩, ⟨بِهِۦ⟩.'],
+['Кое е изключението при дамир след сякине?',['⟨فِيهِۦ مُهَانًا⟩','⟨مِنْهُ⟩','⟨إِلَيْهِ⟩','⟨عَلَيْهِ⟩'],0,'Там се удължава.'],
+['В ⟨مَجْرَاهَا⟩ се прави…',['Имале','Тесхил','Секте','Ишмам'],0,'Имале кубра.'],
+['В ⟨ءَأَعْجَمِيٌّ⟩ втората хамза се чете с…',['Тесхил','Имале','Калкале','Икляб'],0,'Между хамза и елиф.'],
+['Елифът в ⟨أَنَا⟩ се чете…',['Само при спиране','Винаги','Никога','Само при свързване'],0,'Едно от седемте думи.']]
+};
+
+/* ---------- guess-the-rule bank ---------- */
+const G_OPTS={
+ nun:['Ихфа','Изхар','Икляб','Идгам с гунна','Идгам без гунна'],
+ mim:['Ихфа (мим)','Изхар (мим)','Идгам мислейн с гунна'],
+ medd:['Медд табии','Медд муттесил','Медд мунфесил','Медд лязим','Медд арид','Медд лин'],
+ lam:['Идгам шемсий','Изхар камерий'],
+ ra:['Дебело (тефхим)','Тънко (теркик)','И двете са допустими'],
+ idg:['Идгам мислейн','Идгам мутеджанисейн','Идгам мутекарибейн'],
+ allah:['Дебело (тефхим)','Тънко (теркик)']};
+const G_LABEL={nun:'Нун сякине / тенуин',mim:'Мим сякине',medd:'Вид медд',lam:'Лям теариф',ra:'Буквата ر',idg:'Вид идгам',allah:'Лямът в името Аллах'};
+const G=[
+['nun','غَنِ{يٌّ كَ}رِيمٌ',0,'Тенуин пред ⟨ك⟩ — една от 15-те букви на ихфа.'],
+['nun','فَتْ{حٌ قَ}رِيبٌ',0,'⟨ق⟩ е буква на ихфа.'],
+['nun','عَ{نْ صَ}لَاتِهِمْ',0,'⟨ص⟩ е буква на ихфа.'],
+['nun','مِ{نْ خَ}وْفٍ',1,'⟨خ⟩ е гърлена буква — изхар.'],
+['nun','مَ{نْ آ}مَنَ',1,'Хамза — изхар.'],
+['nun','غَفُو{رٌ حَ}لِيمٌ',1,'⟨ح⟩ — изхар.'],
+['nun','سَمِي{عٌ بَ}صِيرٌ',2,'Пред ⟨ب⟩ — икляб.'],
+['nun','مِ{نْ بَ}عْدِ',2,'Пред ⟨ب⟩ — икляб.'],
+['nun','لَيُ{نْبَ}ذَنَّ',2,'Икляб и в една дума.'],
+['nun','خَيْ{رًا يَ}رَهُ',3,'⟨ي⟩ е от ⟨يَنْمُو⟩.'],
+['nun','وَمَ{نْ يَ}عْمَلْ',3,'⟨ي⟩ — идгам с гунна.'],
+['nun','فَضْ{لًا مِ}نَ اللَّهِ',3,'⟨م⟩ — идгам с гунна.'],
+['nun','غَفُو{رٌ رَ}حِيمٌ',4,'⟨ر⟩ — идгам без гунна.'],
+['nun','هُ{دًى لِ}لْمُتَّقِينَ',4,'⟨ل⟩ — идгам без гунна.'],
+['nun','مِ{نْ رَ}بِّهِمْ',4,'⟨ر⟩ — идгам без гунна.'],
+['nun','الدُّ{نْيَ}ا',1,'Нун и ⟨ي⟩ в една дума — изхар, не идгам.'],
+['nun','قِ{نْوَ}انٌ',1,'Нун и ⟨و⟩ в една дума — изхар.'],
+['mim','أَطْعَمَهُ{مْ مِ}نْ جُوعٍ',2,'Мим + мим — идгам мислейн с гунна.'],
+['mim','عَلَيْهِ{مْ مُ}ؤْصَدَةٌ',2,'Мим + мим.'],
+['mim','إِنَّ رَبَّهُ{مْ بِ}هِمْ',0,'Мим + ⟨ب⟩ — ихфа.'],
+['mim','تَرْمِيهِ{مْ بِ}حِجَارَةٍ',0,'Мим + ⟨ب⟩ — ихфа.'],
+['mim','هُ{مْ فِ}يهَا',1,'Мим + друга буква — изхар.'],
+['mim','لَكُ{مْ دِ}ينُكُمْ',1,'Мим + ⟨د⟩ — изхар.'],
+['medd','تَوَّ{ا}بًا',0,'Няма хамза или сукун след елифа.'],
+['medd','نُو{حِي}هَا',0,'Естествено удължаване.'],
+['medd','إِذَا جَ{اءَ}',1,'Хамза в същата дума.'],
+['medd','سُ{وءَ}',1,'Хамза в същата дума.'],
+['medd','يَ{ا أَ}يُّهَا',2,'Хамзата е в следващата дума.'],
+['medd','تُوبُ{وا إِ}لَى اللَّهِ',2,'Хамзата е в следващата дума.'],
+['medd','إِنِّ{ي أَ}خَافُ',2,'Хамза в следващата дума.'],
+['medd','الْحَ{اقَّ}ةُ',3,'Шедде (сукун лязим) в същата дума.'],
+['medd','وَلَا الضَّ{الِّ}ينَ',3,'Лязим келими мусеккал.'],
+['medd','{آلْ}آنَ',3,'Лязим келими мухаффеф.'],
+['medd','نَسْتَعِ{ينْ}',4,'Сукун при спиране — арид.'],
+['medd','يَوْمِ الدِّ{ينْ}',4,'Сукун при спиране.'],
+['medd','يَعْلَمُ{ونْ}',4,'Сукун при спиране.'],
+['medd','مِنْ خَ{وْفْ}',5,'⟨و⟩ сякине след фетха + сукун.'],
+['medd','وَالصَّ{يْفْ}',5,'⟨ي⟩ сякине след фетха + сукун.'],
+['lam','وَ{النَّ}اسِ',0,'⟨ن⟩ — шемсий (с гунна).'],
+['lam','وَ{الشَّ}مْسِ',0,'⟨ش⟩ — шемсий.'],
+['lam','وَ{التِّ}ينِ',0,'⟨ت⟩ — шемсий.'],
+['lam','وَ{الْقَ}مَرِ',1,'⟨ق⟩ — камерий.'],
+['lam','وَ{الْفَ}جْرِ',1,'⟨ف⟩ — камерий.'],
+['lam','وَ{الْعَ}صْرِ',1,'⟨ع⟩ — камерий.'],
+['ra','{الرَّ}حْمَٰنِ',0,'⟨ر⟩ с фетха.'],
+['ra','{الرُّ}وحُ',0,'⟨ر⟩ с дамма.'],
+['ra','بِالْبِ{رِّ}',1,'⟨ر⟩ с кесра.'],
+['ra','وَانْحَ{رْ}',0,'Сякине след фетха.'],
+['ra','وَاصْطَبِ{رْ}',1,'Сякине след кесра.'],
+['ra','فِ{رْقَ}ةٍ',0,'Следва ⟨ق⟩ от истиаля в същата дума.'],
+['ra','كُلُّ فِ{رْقٍ}',2,'Буквата на истиаля е с кесра.'],
+['ra','ا{رْ}جِعِي',0,'Кесрата преди нея е арида.'],
+['ra','خَيْ{رْ}',1,'След харф лин ⟨ي⟩.'],
+['ra','بِالصَّبْ{رْ}',0,'Буквата преди двете сякине е с фетха.'],
+['ra','قَدِي{رْ}',1,'Буквата преди двете сякине е с кесра.'],
+['ra','مِنْ مِصْ{رْ}',2,'Едно от двете изключения при спиране.'],
+['idg','فَمَا رَبِحَ{تْ تِ}جَارَتُهُمْ',0,'⟨ت⟩ + ⟨ت⟩.'],
+['idg','اضْرِ{بْ بِ}عَصَاكَ',0,'⟨ب⟩ + ⟨ب⟩.'],
+['idg','وَقَالَ{تْ طَ}ائِفَةٌ',1,'⟨ت⟩ и ⟨ط⟩ — едно местопроизношение.'],
+['idg','إِ{ذْ ظَ}لَمُوا',1,'⟨ذ⟩ и ⟨ظ⟩ — едно местопроизношение.'],
+['idg','ارْكَ{بْ مَ}عَنَا',1,'⟨ب⟩ и ⟨م⟩ — устните.'],
+['idg','قُ{لْ رَ}بِّ',2,'⟨ل⟩ и ⟨ر⟩ — близки.'],
+['idg','نَخْلُ{قْكُ}مْ',2,'⟨ق⟩ и ⟨ك⟩ — близки.'],
+['allah','هُوَ {اللَّهُ}',0,'Преди името има фетха.'],
+['allah','نَصْرُ {اللَّهِ}',0,'Преди името има дамма.'],
+['allah','بِ{اللَّهِ}',1,'Преди името има кесра.'],
+['allah','لِ{لَّهِ}',1,'Преди името има кесра.']
+];
+
+/* ---------- flashcards ---------- */
+const DECKS={
+terms:{name:'Термини',cards:[
+['Теджуид','تَجْوِيد','Да се даде на всяка буква правото ѝ и онова, което ѝ се полага, и да се върне към основата ѝ.'],
+['Махрадж','مَخْرَج','Местопроизношение — мястото, от което излиза буквата. Те са 17.'],
+['Джехр','جَهْر','Въздухът се задържа, гласът се чува ясно.'],
+['Хемс','هَمْس','Въздухът се пропуска, гласът не се чува силно. ⟨فَحَثَّهُ شَخْصٌ سَكَتْ⟩'],
+['Шидде','شِدَّة','Няма пролука, гласът се задържа изцяло. ⟨أَجِدْ قَطٍ بَكَتْ⟩'],
+['Рахауе','رَخَاوَة','Остава пролука, гласът се пропуска изцяло.'],
+['Бейниййе','بَيْنِيَّة','Между шидде и рахауе. ⟨لِنْ عُمَرْ⟩'],
+['Истиаля','اِسْتِعْلَاء','Дъното на езика се вдига към небцето. ⟨خُصَّ ضَغْطٍ قِظْ⟩'],
+['Истифал','اِسْتِفَال','Дъното на езика спада към долната челюст.'],
+['Итбак','إِطْبَاق','Езикът покрива небцето. ⟨ص ض ط ظ⟩'],
+['Инфитах','اِنْفِتَاح','Езикът и небцето се отделят.'],
+['Калкале','قَلْقَلَة','Отглас при сукун. ⟨قُطْبُ جَدٍ⟩'],
+['Сафир','صَفِير','Звук като свирене. ⟨ص س ز⟩'],
+['Текрар','تَكْرَار','Треперене на езика при ⟨ر⟩ — пазим се от него.'],
+['Инхираф','اِنْحِرَاف','Отклоняване на въздуха към страните на езика при ⟨ل⟩.'],
+['Тефешши','تَفَشِّي','Разпръскване на въздуха при ⟨ش⟩.'],
+['Иститале','اِسْتِطَالَة','Удължаване на гласа в местопроизношението на ⟨ض⟩.'],
+['Гунна','غُنَّة','Глас от носната кухина при ⟨ن⟩ и ⟨م⟩.'],
+['Тефхим','تَفْخِيم','Дебело четене.'],
+['Теркик','تَرْقِيق','Тънко четене.'],
+['Идгам','إِدْغَام','Вкарване (сливане) на една буква в друга.'],
+['Ихфа','إِخْفَاء','Между идгам и изхар, без шедде, с гунна.'],
+['Изхар','إِظْهَار','Ясно изговаряне на буквата от местопроизношението ѝ.'],
+['Икляб','إِقْلَاب','Нун сякине/тенуин става ⟨م⟩ пред ⟨ب⟩, с ихфа и гунна.'],
+['Медд','مَدّ','Удължаване повече от естественото времетраене.'],
+['Каср','قَصْر','Удължаване колкото естественото времетраене (2 хараки).'],
+['Теуессут','تَوَسُّط','Средно удължаване — 4 хараки.'],
+['Тул','طُول','Максимално удължаване — 6 хараки.'],
+['Секте','سَكْتَة','Спиране без поемане на въздух.'],
+['Раум','رَوْم','Изговаряне на огласовката със слаб глас (кесра, дамма).'],
+['Ишмам','إِشْمَام','Устните във форма на дамма след сукун (само при дамма).'],
+['Сукун лязим','سُكُون لَازِم','Сукун, който се запазва и при спиране, и при свързване.'],
+['Сукун арид','سُكُون عَارِض','Сукун, който се появява само при спиране.'],
+['Харф лин','حَرْف لِين','⟨و⟩ или ⟨ي⟩ сякине след фетха.'],
+['Мислейн','مِثْلَيْن','Две еднакви букви.'],
+['Мутеджанисейн','مُتَجَانِسَيْن','Еднакво местопроизношение, различни качества.'],
+['Мутекарибейн','مُتَقَارِبَيْن','Близки местопроизношения или качества.'],
+['Лям теариф','لَام التَّعْرِيف','Лямът на определителния член ⟨ال⟩.'],
+['Имале','إِمَالَة','Приближаване на ⟨ا⟩ към ⟨ي⟩ и на фетха към кесра. ⟨مَجْرَاهَا⟩'],
+['Тесхил','تَسْهِيل','Хамза, четена между хамза и елиф. ⟨ءَأَعْجَمِيٌّ⟩']]},
+makh:{name:'Местопроизношения',cards:null},
+medd:{name:'Видове медд',cards:[
+['Медд табии','مَدّ طَبِيعِي','Няма причина след буквата за удължаване. 2 хараки.'],
+['Медд муттесил','مَدّ مُتَّصِل','Хамза в същата дума. Задължителен. 4 хараки (Хафс).'],
+['Медд мунфесил','مَدّ مُنْفَصِل','Хамза в следващата дума. Разрешен. 4 хараки (Хафс).'],
+['Медд лязим','مَدّ لَازِم','Сукун лязим в същата дума. Задължителен. 6 хараки.'],
+['Медд арид','مَدّ عَارِض','Сукун при спиране. 2, 4 или 6 хараки.'],
+['Медд лин','مَدّ لِين','Харф лин + сукун. С лязим: тул или теуессут.'],
+['Причини за медд','سَبَب الْمَدّ','Хамза и сукун.']]}
+};
+DECKS.makh.cards=[];
+for(let i=1;i<=17;i++){const ls=Object.keys(LMAKH).filter(l=>LMAKH[l]===i);DECKS.makh.cards.push([i+'-о място',i===17?'غُنَّة':(i===1?'ا و ي':ls.join(' ')),MAKH[i]])}
+
+/* ---------- state ---------- */
+let done=store.get('done',{}), best=store.get('best',{});
+let cur=store.get('lesson',0);
+
+/* ---------- lessons view ---------- */
+function renderRail(){
+  const n=Object.keys(done).filter(k=>done[k]).length;
+  $('#rail').innerHTML='<div class="prog">Прочетени '+n+' от '+LESSONS.length+'</div><div class="bar"><i style="width:'+(n/LESSONS.length*100)+'%"></i></div>'+
+    LESSONS.map((l,i)=>'<button data-i="'+i+'" class="'+(done[l.id]?'done':'')+'" aria-current="'+(i===cur)+'"><span class="n">'+(i+1)+'</span><span>'+l.title+'</span></button>').join('');
+  $('#railsel').innerHTML=LESSONS.map((l,i)=>'<option value="'+i+'"'+(i===cur?' selected':'')+'>'+(i+1)+'. '+l.title+(done[l.id]?' ✓':'')+'</option>').join('');
+}
+function renderLesson(){
+  const l=LESSONS[cur];
+  $('#lesson').innerHTML='<div class="eyebrow">Урок '+(cur+1)+' · '+l.pages+'</div><h1>'+l.title+'</h1>'+fmt(l.html())+
+   '<div class="lessonnav">'+
+   '<button class="btn" id="prev"'+(cur===0?' disabled':'')+'>← Назад</button>'+
+   '<button class="btn '+(done[l.id]?'':'gold')+'" id="mark">'+(done[l.id]?'Прочетен ✓':'Маркирай като прочетен')+'</button>'+
+   (Q[l.id]?'<button class="btn" id="ltest">Тест по урока</button>':'')+
+   '<button class="btn primary" id="next"'+(cur===LESSONS.length-1?' disabled':'')+'>Напред →</button></div>';
+  $('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
+  $('#mark').onclick=()=>{done[l.id]=!done[l.id];store.set('done',done);renderRail();renderLesson()};
+  if($('#ltest'))$('#ltest').onclick=()=>{show('quiz');startQuiz(l.id)};
+  const g=$('#lgrid');
+  if(g)g.onclick=e=>{const b=e.target.closest('[data-l]');if(!b)return;const L=b.dataset.l;
+    $('#lpanel').innerHTML='<div class="big">'+L+'</div><div class="exlabel">Местопроизношение № '+LMAKH[L]+'</div><p style="margin:.2em 0 .8em">'+MAKH[LMAKH[L]]+'</p><div class="exlabel">Качества</div><div class="tags">'+qualities(L).map(q=>'<span class="tag">'+q+'</span>').join('')+'</div>'};
+}
+function go(i){cur=Math.max(0,Math.min(LESSONS.length-1,i));store.set('lesson',cur);renderRail();renderLesson();window.scrollTo({top:0})}
+$('#rail').onclick=e=>{const b=e.target.closest('[data-i]');if(b)go(+b.dataset.i)};
+$('#railsel').onchange=e=>go(+e.target.value);
+
+/* ---------- generic MCQ runner ---------- */
+function runMCQ(host,items,opts){
+  let i=0,score=0,res=[];
+  function draw(){
+    if(i>=items.length)return finish();
+    const it=items[i];
+    const order=shuffle(it.opts.map((o,k)=>k));
+    host.querySelector('.qhost').innerHTML=
+     '<div class="dots">'+items.map((_,k)=>'<i class="'+(res[k]===true?'r':res[k]===false?'w':'')+(k===i?' c':'')+'"></i>').join('')+'</div>'+
+     '<div class="meta"><span>'+(it.label||'')+'</span><span>'+(i+1)+' / '+items.length+'</span></div>'+
+     (it.big?'<div class="bigar" lang="ar">'+arx(it.big)+'</div><div class="hint">Какво правило действа в оцветената част?</div>':'<p class="q">'+fmt(it.q)+'</p>')+
+     '<div class="opts">'+order.map(k=>'<button class="opt" data-k="'+k+'">'+fmt(it.opts[k])+'</button>').join('')+'</div><div class="fb"></div>';
+    host.querySelector('.opts').onclick=e=>{
+      const b=e.target.closest('.opt');if(!b||b.disabled)return;
+      const k=+b.dataset.k, ok=k===it.a;
+      res[i]=ok;if(ok)score++;
+      host.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(+x.dataset.k===it.a)x.classList.add('right')});
+      if(!ok)b.classList.add('wrong');
+      host.querySelector('.fb').innerHTML='<div class="why"><b>'+(ok?'Правилно.':'Не съвсем.')+'</b> '+fmt(it.why||'')+'</div><div class="row"><button class="btn primary" id="nx">'+(i===items.length-1?'Резултат':'Следващ →')+'</button></div>';
+      const nx=host.querySelector('#nx');nx.onclick=()=>{i++;draw()};nx.focus();
+    };
+  }
+  function finish(){
+    const pct=Math.round(score/items.length*100);
+    if(opts.key){const prev=best[opts.key]||0;if(pct>prev){best[opts.key]=pct;store.set('best',best)}}
+    host.querySelector('.qhost').innerHTML='<div class="result"><div class="exlabel">Резултат</div><div class="score">'+score+' / '+items.length+'</div><p>'+(pct>=90?'Отлично! Материалът е усвоен.':pct>=70?'Добре. Прегледай грешките и опитай пак.':'Върни се към урока и опитай отново.')+'</p>'+
+     (opts.key?'<p style="color:var(--muted);font-size:.9rem">Най-добър резултат: '+best[opts.key]+'%</p>':'')+
+     '<div class="row" style="justify-content:center"><button class="btn primary" id="again">Отначало</button>'+(opts.lesson!=null?'<button class="btn" id="tolesson">Към урока</button>':'')+'</div></div>';
+    host.querySelector('#again').onclick=opts.restart;
+    if(host.querySelector('#tolesson'))host.querySelector('#tolesson').onclick=()=>{show('lessons');go(opts.lesson)};
+  }
+  draw();
+}
+
+/* ---------- quiz view ---------- */
+function startQuiz(which){
+  const host=$('#v-quiz');
+  const sel='<select class="sel" id="qsel"><option value="exam">Общ изпит (20 въпроса)</option>'+LESSONS.filter(l=>Q[l.id]).map(l=>'<option value="'+l.id+'"'+(l.id===which?' selected':'')+'>'+(LESSONS.indexOf(l)+1)+'. '+l.title+(best['q_'+l.id]!=null?' — '+best['q_'+l.id]+'%':'')+'</option>').join('')+'</select>';
+  host.innerHTML='<div class="stage"><div class="stagehead"><h1>Тест</h1>'+sel+'</div><div class="card qhost"></div></div>';
+  if(which==='exam')$('#qsel').value='exam';
+  $('#qsel').onchange=e=>startQuiz(e.target.value);
+  let items;
+  const conv=(q,lid)=>({q:q[0],opts:q[1],a:q[2],why:q[3],label:lid?LESSONS.find(l=>l.id===lid).title:''});
+  if(which==='exam'){items=shuffle(Object.keys(Q).flatMap(k=>Q[k].map(q=>conv(q,k)))).slice(0,20)}
+  else items=shuffle(Q[which].map(q=>conv(q,which)));
+  runMCQ(host,items,{key:'q_'+which,lesson:which==='exam'?null:LESSONS.findIndex(l=>l.id===which),restart:()=>startQuiz(which)});
+}
+
+/* ---------- guess view ---------- */
+function startGuess(group){
+  const host=$('#v-guess');
+  const sel='<select class="sel" id="gsel"><option value="all">Всички правила</option>'+Object.keys(G_LABEL).map(k=>'<option value="'+k+'"'+(k===group?' selected':'')+'>'+G_LABEL[k]+'</option>').join('')+'</select>';
+  host.innerHTML='<div class="stage"><div class="stagehead"><h1>Познай правилото</h1>'+sel+'</div><div class="card qhost"></div></div>';
+  $('#gsel').onchange=e=>startGuess(e.target.value);
+  const pool=G.filter(g=>group==='all'||g[0]===group);
+  const items=shuffle(pool).slice(0,12).map(g=>({big:g[1],opts:G_OPTS[g[0]],a:g[2],why:g[3],label:G_LABEL[g[0]]}));
+  runMCQ(host,items,{key:'g_'+group,lesson:null,restart:()=>startGuess(group)});
+}
+
+/* ---------- cards view ---------- */
+function startCards(deckId){
+  const host=$('#v-cards');const deck=DECKS[deckId];
+  let queue=shuffle(deck.cards.map((c,i)=>i)), known=0, flipped=false;
+  host.innerHTML='<div class="stage"><div class="stagehead"><h1>Флаш карти</h1><select class="sel" id="dsel">'+Object.keys(DECKS).map(k=>'<option value="'+k+'"'+(k===deckId?' selected':'')+'>'+DECKS[k].name+' ('+DECKS[k].cards.length+')</option>').join('')+'</select></div><div id="chost"></div></div>';
+  $('#dsel').onchange=e=>startCards(e.target.value);
+  function draw(){
+    const ch=$('#chost');
+    if(!queue.length){ch.innerHTML='<div class="card result"><div class="score">'+deck.cards.length+'</div><p>Всички карти от тестето са научени.</p><div class="row" style="justify-content:center"><button class="btn primary" id="rs">Отначало</button></div></div>';$('#rs').onclick=()=>startCards(deckId);return}
+    const c=deck.cards[queue[0]];flipped=false;
+    ch.innerHTML='<div class="meta"><span>Научени: '+known+' / '+deck.cards.length+'</span><span>Остават: '+queue.length+'</span></div>'+
+     '<button class="flip" id="fl" aria-label="Обърни картата"><div class="flipin">'+
+     '<div class="face"><div class="fsub">'+(deckId==='makh'?'Местопроизношение':'Термин')+'</div>'+(deckId==='makh'?'<div class="fbig">'+c[0]+'</div><div class="far">'+c[1]+'</div>':'<div class="fbig">'+c[0]+'</div><div class="far">'+c[1]+'</div>')+'<div class="fsub" style="margin-top:8px">Натисни, за да обърнеш</div></div>'+
+     '<div class="face back"><div class="fsub">'+c[0]+'</div><p>'+fmt(c[2])+'</p></div>'+
+     '</div></button><div class="row" style="justify-content:space-between"><button class="btn" id="again">Още не го знам</button><button class="btn primary" id="know">Знам го ✓</button></div>';
+    $('#fl').onclick=()=>{flipped=!flipped;$('#fl').classList.toggle('on',flipped)};
+    $('#know').onclick=()=>{queue.shift();known++;draw()};
+    $('#again').onclick=()=>{const x=queue.shift();queue.splice(Math.min(queue.length,3),0,x);draw()};
+  }
+  draw();
+}
+
+/* ---------- tabs ---------- */
+let started={};
+function show(v){
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.v===v));
+  ['lessons','cards','guess','quiz'].forEach(k=>$('#v-'+k).hidden=k!==v);
+  if(!started[v]){started[v]=1;if(v==='cards')startCards('terms');if(v==='guess')startGuess('all');if(v==='quiz')startQuiz('exam')}
+  window.scrollTo({top:0});
+}
+document.querySelector('nav.tabs').onclick=e=>{const b=e.target.closest('[data-v]');if(b)show(b.dataset.v)};
+renderRail();renderLesson();
+
+/* ---------- settings: theme ---------- */
+const root=document.documentElement;
+function applyTheme(t){
+  if(t==='light'||t==='dark')root.setAttribute('data-theme',t);else root.removeAttribute('data-theme');
+  document.querySelectorAll('[data-theme-set]').forEach(b=>b.setAttribute('aria-checked',b.dataset.themeSet===t));
+  const dark=t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches);
+  const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=dark?'#0f1524':'#1e3d7b';
+}
+let theme=store.get('theme','system');applyTheme(theme);
+document.querySelector('.seg').onclick=e=>{const b=e.target.closest('[data-theme-set]');if(!b)return;theme=b.dataset.themeSet;store.set('theme',theme);applyTheme(theme)};
+try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>applyTheme(theme))}catch(e){}
+
+/* settings panel open/close */
+const setbtn=$('#setbtn'),setpanel=$('#setpanel');
+function togglePanel(open){setpanel.hidden=!open;setbtn.setAttribute('aria-expanded',open)}
+setbtn.onclick=e=>{e.stopPropagation();togglePanel(setpanel.hidden)};
+document.addEventListener('click',e=>{if(!setpanel.hidden&&!e.target.closest('.setwrap'))togglePanel(false)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')togglePanel(false)});
+
+/* ---------- settings: keep screen on ---------- */
+let wakeWanted=store.get('wake',false),wakeLock=null;
+const wakeBtn=$('#wake'),wakeStat=$('#wakestat');
+function wakeUI(msg){wakeBtn.setAttribute('aria-checked',wakeWanted);wakeStat.textContent=msg||''}
+async function acquire(){
+  if(!('wakeLock' in navigator)){wakeUI('Не се поддържа от този браузър');return false}
+  try{wakeLock=await navigator.wakeLock.request('screen');wakeLock.addEventListener('release',()=>{wakeLock=null});wakeUI('Включено');return true}
+  catch(e){wakeUI('Браузърът отказа заявката');return false}
+}
+async function setWake(on){
+  wakeWanted=on;store.set('wake',on);
+  if(on){const ok=await acquire();if(!ok){wakeWanted=false;store.set('wake',false);wakeBtn.setAttribute('aria-checked',false)}}
+  else{try{if(wakeLock)await wakeLock.release()}catch(e){}wakeLock=null;wakeUI('')}
+}
+wakeBtn.onclick=()=>setWake(!wakeWanted);
+document.addEventListener('visibilitychange',()=>{if(wakeWanted&&document.visibilityState==='visible'&&!wakeLock)acquire()});
+if(wakeWanted)acquire().then(ok=>{if(!ok){wakeWanted=false;wakeUI(wakeStat.textContent)}});else wakeUI('');
+
+/* ---------- settings: install ---------- */
+let deferredPrompt=null;
+const instBtn=$('#installbtn'),instHint=$('#installhint');
+const isStandalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+function installUI(){
+  if(isStandalone){instBtn.disabled=true;instBtn.textContent='Приложението е инсталирано';instHint.textContent='';return}
+  if(deferredPrompt){instBtn.disabled=false;instHint.textContent='Ще се появи на началния екран като отделно приложение и ще работи без интернет.';return}
+  if(isIOS){instBtn.disabled=false;instHint.innerHTML='В Safari натисни „Сподели“ ⬆, после „Добави към началния екран“.';return}
+  instBtn.disabled=false;
+  instHint.textContent=('serviceWorker' in navigator && location.protocol==='https:' && !location.hostname.endsWith('claude.ai'))
+    ?'Ако бутонът не реагира, отвори менюто на браузъра (⋮) и избери „Инсталиране на приложението“ или „Добави към началния екран“.'
+    :'Инсталирането работи от версията в GitHub Pages. Тук отвори менюто на браузъра и избери „Добави към началния екран“.';
+}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;installUI()});
+window.addEventListener('appinstalled',()=>{deferredPrompt=null;instBtn.disabled=true;instBtn.textContent='Приложението е инсталирано';instHint.textContent=''});
+instBtn.onclick=async()=>{
+  if(deferredPrompt){deferredPrompt.prompt();try{await deferredPrompt.userChoice}catch(e){}deferredPrompt=null;installUI()}
+  else instHint.style.color='var(--gold)';
+};
+installUI();
+</script>
+
+<script>
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
+</script>
+</body>
+</html>
